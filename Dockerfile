@@ -1,23 +1,19 @@
-# Use the official Node.js 14 image as the base image
-FROM node:14
+FROM node:20.14
 
 # Set the working directory inside the container
-WORKDIR /app
-
-# Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
+WORKDIR /usr/src/app
 
 # Install dependencies
-RUN npm install
+COPY ["package.json", "package-lock.json", "tsconfig.json", ".env", "./"]
 
 # Copy the rest of the application code to the working directory
-COPY . .
+COPY ./src ./src
 
 # Build the TypeScript code
-RUN npm run build
+RUN npm install
 
 # Expose a port (if needed)
 EXPOSE 3000
 
 # Start the application
-CMD [ "npm", "start" ]
+CMD npm run build && npm run start

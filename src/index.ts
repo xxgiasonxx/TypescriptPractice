@@ -1,25 +1,25 @@
 import { AppDataSource } from "./data-source"
-import { User } from "./entity/User"
 import "reflect-metadata"
 import express, { Express, Request, Response } from "express"
 import * as dotenv from "dotenv"
+import router from "./routes/All.routes"
 dotenv.config()
 
 const app: Express = express();
-const port = 5000 || process.env.PORT;
+const port = process.env.WEB_PORT || 3000;
 
-app.get('/', (req, res) => {
-    res.send('The server is working!');
-});
+app.use(express.json());
+app.use(router);
 
 
 app.listen(port, () => {
-    console.log(`server is listening on ${port} !!!`);
+    console.log(`server is listening on http://localhost:${port} !!!`);
 
-    AppDataSource.initialize().then(async () => {
-
-        console.log("Inserting a new user into the database...")
-
+    AppDataSource.initialize()
+    .then(async (conn) => {
+        await conn.runMigrations();
+        console.log('Database connected successfully');
+        console.log('Migration run successfully');
     }).catch(error => console.log(error))
 });
 
