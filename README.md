@@ -36,7 +36,7 @@
 
 - `npm run start` run dist index.js
 
-## Env
+## Environment
 
 ```
 DB_HOST=localhost                                   #database host
@@ -73,3 +73,59 @@ API_PORT=5000                                       #api port
 │       └── user.routes.ts
 └── tsconfig.json
 ```
+
+## API
+
+### 註冊
+
+`http://localhost:3000/register`\
+Method: POST
+>註冊使用者json:
+>
+>```
+>{
+>  "password": "12345678",
+>  "email": "John@gmail.com",
+>  "username": "john"
+>}
+>```
+>
+>回傳json:
+>```
+>{
+>    message: "User created successfully"
+>}
+>```
+
+`http://localhost:3000/login`\
+Method: POST
+>登入使用者:
+>
+>```
+>{
+>  "password": "12345678",
+>  "email": "John@gmail.com",
+>}
+>```
+>
+>回傳json:
+>```
+>{
+>    token: JWT token
+>}
+>```
+
+
+`http://localhost:3000/userinfo`\
+Method: POST
+>Bearer Token: 
+>```
+>JWT token
+>```
+>回傳json:
+>```
+>{
+>  "email": "John@gmail.com",
+>  "username": "john"
+>}
+>```
