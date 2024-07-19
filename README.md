@@ -20,21 +20,21 @@
 
 - 路徑+資料夾名稱+檔名 `src/migration/{NewFileName}`
 
-- `npm run migration:generate 路徑+資料夾名稱+檔名` 自動產生Migration
+- `pnpm run migration:generate 路徑+資料夾名稱+檔名` 自動產生Migration
 
-- `npm run migration:create 路徑+資料夾名稱+檔名` 產生空白的migration
+- `pnpm run migration:create 路徑+資料夾名稱+檔名` 產生空白的migration
 
-- `npm run migration:show` 查看已有的migration
+- `pnpm run migration:show` 查看已有的migration
 
-- `npm run migration:revert` 復原
+- `pnpm run migration:revert` 復原
 
-- `npm run migration:run` 讓migration運作
+- `pnpm run migration:run` 讓migration運作
 
-- `npm run dev` 開發者模式 用 nodemon運作
+- `pnpm run dev` 開發者模式 用 nodemon運作
 
-- `npm run build` 建置到 dist 資料夾中
+- `pnpm run build` 建置到 dist 資料夾中
 
-- `npm run start` run dist index.js
+- `pnpm run start` run dist index.js
 
 ## Environment
 
