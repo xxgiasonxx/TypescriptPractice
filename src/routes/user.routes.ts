@@ -1,12 +1,90 @@
-import express from "express";
 import { GetUserInfo, LoginUser, RegisterUser, verifyToken } from "../controller/user.controller";
+import { createExpressEndpoints, initServer } from "@ts-rest/express";
+import { Contract } from "../../contract/contract";
+import { app } from "..";
 
-const router = express.Router();
+const s = initServer();
 
-router.post("/register", RegisterUser);
+const router = s.router(Contract.User, {
+    RegisterUser: async ({ body }) => {
+        const result = await RegisterUser(body.UserName, body.email, body.password);
+        if (result.status === 500) {
+            return {
+                status: 500,
+                body: {
+                    message: result.body.message
+                }
+            }
+        } else if (result.status === 400) {
+            return {
+                status: 400,
+                body: {
+                    message: result.body.message
+                }
+            }
+        }
+        return {
+            status: 201,
+            body: {
+                message: result.body.message
+            }
+        }
+    },
+    LoginUser: async ({ body }) => {
+        const result = await LoginUser(body.email, body.password);
+        
+        if (result.status === 500) {
+            return {
+                status: 500,
+                body: {
+                    message: result.body.message!
+                }
+            }
+        } else if (result.status === 400) {
+            return {
+                status: 400,
+                body: {
+                    message: result.body.message!
+                }
+            }
+        }
+        return {
+            status: 200,
+            body: {
+                token: result.body.token!
+            }
+        }
+    },
+    GetUserInfo: {
+        middleware: [
+            verifyToken
+        ],
+        handler: async ({ body }) => {
+            const result = await GetUserInfo(body.token);
+            if (result.status === 500) {
+                return {
+                    status: 500,
+                    body: {
+                        message: result.body.message!
+                    }
+                }
+            } else if (result.status === 404) {
+                return {
+                    status: 404,
+                    body: {
+                        message: result.body.message!
+                    }
+                }
+            }
+            return {
+                status: 200,
+                body: result.body.user!
+            }
+        }
+    }
+});
 
-router.post("/login", LoginUser);
+// createExpressEndpoints(Contract.User, router, app);
 
-router.post("/userinfo", verifyToken, GetUserInfo);
 
 export default router;

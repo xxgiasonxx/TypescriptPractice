@@ -14,7 +14,7 @@
 - 進到 TypescriptPractice 資料夾中: \
 `cd TypescriptPractice`
 
-- 運行 `docker-compose up -d` 創建 API image 以及 Postgres資料庫 and API container
+- 運行 `docker compose up -d` 創建 API image 以及 Postgres資料庫 and API container
 
 ## package.json Script
 
