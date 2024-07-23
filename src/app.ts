@@ -35,24 +35,12 @@ const openApiDocument = generateOpenApi(Contract, {
         },
 
     },
-    User: {
-        GetUserInfo: {
-            metadata: {
-                security: [
-                    {
-                        bearerAuth: [],
-                    },
-                ],
-            }
+    security: [
+        {
+            bearerAuth: [],
         },
-    },
-    // security: [
-    //     {
-    //         bearerAuth: [],
-    //     },
-    // ],
-},
-);
+    ],
+});
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openApiDocument));
 

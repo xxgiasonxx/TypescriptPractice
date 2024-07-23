@@ -5,25 +5,17 @@ import { GetUserInfo, LoginUser, RegisterUser, verifyToken } from "../controller
 const s = initServer();
 
 const router = s.router(Contract.User, {
-    /*
-        #swagger.security = [{ "bearerAuth": [] }]
-        ...
-    */
     RegisterUser: async ({ body }) => {
         return await RegisterUser(body);
     },
     LoginUser: async ({ body }) => {
         return await LoginUser(body);
     },
-    /*#swagger.security = [{ "bearerAuth": [] }]*/
     GetUserInfo: {
         middleware: [
             verifyToken
         ],
         handler: async ({ req, res }) => {
-            security: {
-                bearerAuth: []
-            }
             return await GetUserInfo(req, res);
         }
     }

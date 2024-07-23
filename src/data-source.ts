@@ -1,7 +1,6 @@
 import "reflect-metadata"
 import { DataSource } from "typeorm"
 import * as dotenv from "dotenv"
-import { User } from "./entities/User.entity"
 dotenv.config()
 
 const TypeORMConfig: Record<string, DataSource> = {
@@ -48,9 +47,8 @@ export const createTypeormConnection = async () => {
     await AppDataSource.initialize()
         .then(async (conn) => {
             await conn.runMigrations();
-            // console.log('Database connected successfully');
+            console.log('Database connected successfully');
             console.log('Migration run successfully');
         }).catch(error => console.log(error))
-    // const conn = await AppDataSource.connect();
     return AppDataSource;
 }
