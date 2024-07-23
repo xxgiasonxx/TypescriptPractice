@@ -1,4 +1,4 @@
-# 使用工具 TypeORM / Express / TypeScript / PostgresSQL 簡單 API
+# 使用工具 TypeORM / Express / TypeScript / PostgresSQL / Jest / ts-rest / zod 簡單 API
 
 ## 需要工具
 
@@ -36,6 +36,10 @@
 
 - `pnpm run start` run dist index.js
 
+- `pnpm run test` run jest
+
+- `pnpm run test:watch` run jest watch mode
+
 ## Environment
 
 ```
@@ -55,19 +59,25 @@ API_PORT=5000                                       #api port
 ├── Dockerfile
 ├── README.md
 ├── docker-compose.yml
+├── jest.config.js
 ├── package-lock.json
 ├── package.json
+├── pnpm-lock.yaml
 ├── src
+│   ├── __tests__
+│   │   └── controller
+│   │       └── user.controller.spec.ts
+│   ├── app.ts
+│   ├── contract
+│   │   └── contract.ts
 │   ├── controller
 │   │   └── user.controller.ts
 │   ├── data-source.ts
-│   ├── entity
-│   │   └── User.ts
-│   ├── index.ts
+│   ├── entities
+│   │   └── User.entity.ts
+│   ├── index.tss
 │   ├── migration
-│   │   ├── 1721031253680-migration_1.ts
-│   │   ├── 1721031605718-migration_2.ts
-│   │   └── 1721124544799-migration_3.ts
+│   │   └── 1721729805902-migration_1.ts
 │   └── routes
 │       ├── All.routes.ts
 │       └── user.routes.ts
@@ -86,11 +96,12 @@ Method: POST
 >{
 >  "password": "12345678",
 >  "email": "John@gmail.com",
->  "username": "john"
+>  "username": "John"
 >}
 >```
 >
 >回傳json:
+>
 >```
 >{
 >    message: "User created successfully"
@@ -109,20 +120,23 @@ Method: POST
 >```
 >
 >回傳json:
+>
 >```
 >{
 >    token: JWT token
 >}
 >```
 
-
 `http://localhost:3000/userinfo`\
 Method: POST
->Bearer Token: 
+>Bearer Token:
+>
 >```
 >JWT token
 >```
+>
 >回傳json:
+>
 >```
 >{
 >  "email": "John@gmail.com",
