@@ -1,6 +1,3 @@
-import { createExpressEndpoints, initServer } from '@ts-rest/express';
-import { Contract } from '../../contract/contract';
-import { app } from '../index';
 import userRouter from './user.routes';
 
 // const router = express.Router();
