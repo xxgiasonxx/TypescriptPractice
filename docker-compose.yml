@@ -4,7 +4,7 @@ services:
     image: postgres
     restart: always
     ports:
-      - 5433:5432
+      - ${DB_PORT}:5432
     environment:
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
@@ -12,21 +12,33 @@ services:
     volumes:
       - data:/data/db
 
+  db_test:
+    image: postgres
+    restart: always
+    ports:
+      - ${DB_TEST_PORT}:5432
+    environment:
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=api_test
+
   api:
     container_name: api
     restart: always
     build: .
     ports:
-      - 3000:${WEB_PORT}
+      - ${API_PORT}:3000
     depends_on:
       - db
+      - db_test
     environment:
-      - DB_HOST=db 
+      - DB_HOST=db
       - DB_PORT=${DB_PORT}
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_DATABASE=${DB_DATABASE}
       - API_PORT=${API_PORT}
       - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - NODE_ENV=${NODE_ENV}
 volumes:
   data: {}

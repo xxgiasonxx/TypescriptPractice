@@ -2,7 +2,7 @@ import app from "./app";
 import * as dotenv from "dotenv"
 import { createTypeormConnection } from "./data-source";
 dotenv.config()
-const port = process.env.API_PORT || 3000;
+const port = 3000;
 
 
 

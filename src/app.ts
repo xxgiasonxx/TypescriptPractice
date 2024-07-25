@@ -24,22 +24,26 @@ const openApiDocument = generateOpenApi(Contract, {
     },
     components: {
         securitySchemes: {
-            bearerAuth: {
-                type: "http",
-                scheme: "bearer",
-                name: "Authorization",
-                in: "header",
-                bearerFormat: "JWT",
-                description: 'Enter the token with the`Bearer: ` prefix, e.g. "Bearer abcde12345".'
+            "jwt": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
             },
+            // bearerAuth: {
+            //     type: "http",
+            //     scheme: "bearer",
+            //     name: "Authorization",
+            //     in: "header",
+            //     bearerFormat: "JWT",
+            //     description: 'Enter the token with the`Bearer: ` prefix, e.g. "Bearer abcde12345".'
+            // },
         },
-
     },
     security: [
         {
-            bearerAuth: [],
-        },
-    ],
+            "jwt": []
+        }
+    ]
 });
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openApiDocument));

@@ -5,6 +5,7 @@
 - [Node v20+](https://nodejs.org/)
 - [Docker](https://www.docker.com/)
 - [Git](https://git-scm.com/)
+- [ts-rest](https://ts-rest.com/)
 
 ## 運行
 
@@ -45,11 +46,13 @@
 ```
 DB_HOST=localhost                                   #database host
 DB_PORT=5432                                        #database port
+DB_TEST_PORT=5444                                   #database test port
 DB_USERNAME=postgres                                #database username
 DB_PASSWORD=123456                                  #database password
 DB_DATABASE=postgres                                #database name
 JWT_SECRET_KEY=sGnspIm9StP6VAFr9ZFVMTfEKizVb0xE     #database jwt 密鑰
-API_PORT=5000                                       #api port
+API_PORT=3000                                       #api port
+NODE_ENV=development                                #development || production || test
 ```
 
 ## 檔案
@@ -75,7 +78,7 @@ API_PORT=5000                                       #api port
 │   ├── data-source.ts
 │   ├── entities
 │   │   └── User.entity.ts
-│   ├── index.tss
+│   ├── index.ts
 │   ├── migration
 │   │   └── 1721729805902-migration_1.ts
 │   └── routes
@@ -85,6 +88,10 @@ API_PORT=5000                                       #api port
 ```
 
 ## API
+
+### openapi
+
+### <http://localhost:3000/api-docs>
 
 ### 註冊
 
@@ -143,3 +150,7 @@ Method: POST
 >  "username": "john"
 >}
 >```
+
+## 小問題
+
+- ts-rest 的 openapi doc 沒辦法開單獨的 Auth baerer token 不知道為什麼
