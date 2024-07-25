@@ -1,10 +1,11 @@
-# 使用工具 TypeORM / Express / TypeScript / PostgresSQL / Jest / ts-rest / zod 簡單 API
+# 使用工具 TypeORM / Express / TypeScript / PostgresSQL / Jest / tsoa 簡單 API
 
 ## 需要工具
 
 - [Node v20+](https://nodejs.org/)
 - [Docker](https://www.docker.com/)
 - [Git](https://git-scm.com/)
+- [tsoa](https://tsoa-community.github.io/docs/)
 
 ## 運行
 
@@ -30,26 +31,28 @@
 
 - `pnpm run migration:run` 讓migration運作
 
-- `pnpm run dev` 開發者模式 用 nodemon運作
+- `pnpm run dev` 開發者模式 用 nodemon運作 in NODE_ENV=development
 
-- `pnpm run build` 建置到 dist 資料夾中
+- `pnpm run build` 建置到 dist 資料夾中 in NODE_ENV=production
 
-- `pnpm run start` run dist index.js
+- `pnpm run start` run dist index.js in NODE_ENV=production
 
-- `pnpm run test` run jest
+- `pnpm run test` run jest in NODE_ENV=test
 
-- `pnpm run test:watch` run jest watch mode
+- `pnpm run test:watch` run jest watch mode in NODE_ENV=test
 
 ## Environment
 
 ```
 DB_HOST=localhost                                   #database host
 DB_PORT=5432                                        #database port
+DB_TEST_PORT=5444                                   #database test port
 DB_USERNAME=postgres                                #database username
 DB_PASSWORD=123456                                  #database password
 DB_DATABASE=postgres                                #database name
 JWT_SECRET_KEY=sGnspIm9StP6VAFr9ZFVMTfEKizVb0xE     #database jwt 密鑰
 API_PORT=5000                                       #api port
+NODE_ENV=prodection                                 #development || production || test
 ```
 
 ## 檔案
@@ -88,6 +91,10 @@ API_PORT=5000                                       #api port
 ```
 
 ## API
+
+### openapi
+
+### <http://localhost:3000/api-docs>
 
 ### 註冊
 
