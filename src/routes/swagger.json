@@ -1,0 +1,393 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"UserRegisterBody": {
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"UserName": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"email",
+					"password",
+					"UserName"
+				],
+				"type": "object",
+				"example": {
+					"UserName": "JohnDoe",
+					"password": "password",
+					"email": "John@gmail.com"
+				},
+				"description": "User Register Body"
+			},
+			"UserLoginBody": {
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"email",
+					"password"
+				],
+				"type": "object",
+				"example": {
+					"password": "password",
+					"email": "John@gmail.com"
+				},
+				"description": "User Login Body"
+			}
+		},
+		"securitySchemes": {
+			"jwt": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			}
+		}
+	},
+	"info": {
+		"title": "TypescriptPractice",
+		"version": "1.0.0",
+		"description": "使用工具 TypeORM / Express / TypeScript / PostgresSQL 簡單 API",
+		"contact": {}
+	},
+	"paths": {
+		"/register": {
+			"post": {
+				"operationId": "RegisterUser",
+				"responses": {
+					"201": {
+						"description": "User created successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"message": "User created successfully"
+										}
+									}
+								}
+							}
+						},
+						"headers": {}
+					},
+					"400": {
+						"description": "User already exists",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								},
+								"examples": {
+									"Example 1": {}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal server error",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								},
+								"examples": {
+									"Example 1": {}
+								}
+							}
+						}
+					}
+				},
+				"description": "Register a new user",
+				"summary": "Register a new user",
+				"tags": [
+					"User"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UserRegisterBody"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/login": {
+			"post": {
+				"operationId": "LoginUser",
+				"responses": {
+					"200": {
+						"description": "User logged in successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"token": {
+											"type": "string"
+										},
+										"message": {
+											"type": "string"
+										}
+									},
+									"type": "object"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"email": "John@gmail.com",
+											"password": "password"
+										}
+									}
+								}
+							}
+						},
+						"headers": {
+							"token": {
+								"schema": {
+									"type": "string"
+								},
+								"required": true
+							}
+						}
+					},
+					"400": {
+						"description": "Invalid email or password",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								},
+								"examples": {
+									"Example 1": {}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal server error",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								},
+								"examples": {
+									"Example 1": {}
+								}
+							}
+						}
+					}
+				},
+				"description": "Login a user",
+				"summary": "Login a user",
+				"tags": [
+					"User"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UserLoginBody"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/userinfo": {
+			"get": {
+				"operationId": "GetUserInfo",
+				"responses": {
+					"200": {
+						"description": "User found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"properties": {
+												"message": {
+													"type": "string"
+												}
+											},
+											"type": "object"
+										},
+										{
+											"properties": {
+												"email": {
+													"type": "string"
+												},
+												"UserName": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"email",
+												"UserName"
+											],
+											"type": "object"
+										}
+									]
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"UserName": "John",
+											"email": "John@gmail.com"
+										}
+									}
+								}
+							}
+						},
+						"headers": {}
+					},
+					"400": {
+						"description": "User not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								},
+								"examples": {
+									"Example 1": {}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								},
+								"examples": {
+									"Example 1": {}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal server error",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								},
+								"examples": {
+									"Example 1": {}
+								}
+							}
+						}
+					}
+				},
+				"description": "Get user information",
+				"summary": "Get user information",
+				"tags": [
+					"User"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": []
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}

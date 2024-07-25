@@ -68,20 +68,23 @@ API_PORT=5000                                       #api port
 │   │   └── controller
 │   │       └── user.controller.spec.ts
 │   ├── app.ts
-│   ├── contract
-│   │   └── contract.ts
 │   ├── controller
 │   │   └── user.controller.ts
 │   ├── data-source.ts
 │   ├── entities
 │   │   └── User.entity.ts
-│   ├── index.tss
+│   ├── index.ts
 │   ├── migration
 │   │   └── 1721729805902-migration_1.ts
-│   └── routes
-│       ├── All.routes.ts
-│       └── user.routes.ts
-└── tsconfig.json
+│   ├── routes
+│   │   ├── routes.ts
+│   │   └── swagger.json
+│   ├── services
+│   │   └── User.service.ts
+│   └── utils
+│       └── authentication.ts
+├── tsconfig.json
+└── tsoa.json
 ```
 
 ## API
@@ -143,3 +146,20 @@ Method: POST
 >  "username": "john"
 >}
 >```
+
+## Some Bug for tsoa
+>
+>使用以下指令會產生 routes.ts and swagger.json 在 src/routes 下
+>
+>```
+> pnpm tsoa spec-and-routes
+>```
+>
+> 但會發現產生 expressAuthenticationRecasted function 找不到的狀況需要自行增加
+>
+>```
+> import { expressAuthenticationRecasted } from '../utils/authentication';
+>```
+>
+> github issues
+> [Link](https://github.com/lukeautry/tsoa/issues/1624)

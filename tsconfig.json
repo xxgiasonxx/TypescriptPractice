@@ -3,6 +3,7 @@
       "lib": [
          "es5",
          "es6",
+         "es2021",
          "dom"
       ],
       "target": "ES6",
@@ -14,6 +15,7 @@
       "sourceMap": true,
       "esModuleInterop": true,
       "strictPropertyInitialization": false,
-      "strict": true
+      "strict": true,
+      "resolveJsonModule": true
    }
 }
