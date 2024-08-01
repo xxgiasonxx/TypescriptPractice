@@ -39,5 +39,6 @@ services:
       - DB_DATABASE=${DB_DATABASE}
       - API_PORT=${API_PORT}
       - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - NODE_ENV=${NODE_ENV}
 volumes:
   data: {}
