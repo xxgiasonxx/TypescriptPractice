@@ -1,4 +1,5 @@
 import request from "supertest";
+import { beforeEach } from "node:test";
 import app from "../../app";
 import { createTypeormConnection } from "../../data-source";
 // jest.useFakeTimers()
@@ -44,63 +45,71 @@ describe('UserController -> RegisterUser', () => {
             UserName: "test2",
             email: "test2@gmail.com",
         })
-        expect(res.statusCode).toBe(422);
-        expect(res.body).toEqual({
-            "message": "Validation Failed",
-            "details": {
-                "requestBody.password": {
-                    "message": "'password' is required"
-                },
-            }
+        expect(res.statusCode).toBe(400);
+        expect(res.body.issues[0]).toEqual({
+            code: 'invalid_type',
+            expected: 'string',
+            received: 'undefined',
+            path: ["password"],
+            message: 'Required'
         });
+        expect(res.body.name).toBe('ZodError');
     });
     it('Missing email', async () => {
         const res = await request(app).post('/register').send({
             UserName: "test2",
             password: "test2",
         })
-        expect(res.statusCode).toBe(422);
-        expect(res.body).toEqual({
-            "message": "Validation Failed",
-            "details": {
-                "requestBody.email": {
-                    "message": "'email' is required"
-                }
-            }
+        expect(res.statusCode).toBe(400);
+        expect(res.body.issues[0]).toEqual({
+            code: 'invalid_type',
+            expected: 'string',
+            received: 'undefined',
+            path: ["email"],
+            message: 'Required'
         });
+        expect(res.body.name).toBe('ZodError');
     });
     it('Missing UserName', async () => {
         const res = await request(app).post('/register').send({
             password: "test2",
             email: "test2@gmail.com",
         })
-        expect(res.statusCode).toBe(422);
-        expect(res.body).toEqual({
-            "message": "Validation Failed",
-            "details": {
-                "requestBody.UserName": {
-                    "message": "'UserName' is required"
-                }
-            }
+        expect(res.statusCode).toBe(400);
+        expect(res.body.issues[0]).toEqual({
+            code: 'invalid_type',
+            expected: 'string',
+            received: 'undefined',
+            path: ["UserName"],
+            message: 'Required'
         });
+        expect(res.body.name).toBe('ZodError');
     });
     it('Missing UserName password email', async () => {
         const res = await request(app).post('/register').send({})
-        expect(res.statusCode).toBe(422);
-        expect(res.body).toEqual({
-            "message": "Validation Failed",
-            "details": {
-                "requestBody.password": {
-                    "message": "'password' is required"
-                },
-                "requestBody.email": {
-                    "message": "'email' is required"
-                },
-                "requestBody.UserName": {
-                    "message": "'UserName' is required"
-                }
-            }
+        expect(res.statusCode).toBe(400);
+        expect(res.body.issues[0]).toEqual({
+            code: 'invalid_type',
+            expected: 'string',
+            received: 'undefined',
+            path: ["UserName"],
+            message: 'Required'
         });
+        expect(res.body.issues[1]).toEqual({
+            code: 'invalid_type',
+            expected: 'string',
+            received: 'undefined',
+            path: ["password"],
+            message: 'Required'
+        });
+        expect(res.body.issues[2]).toEqual({
+            code: 'invalid_type',
+            expected: 'string',
+            received: 'undefined',
+            path: ["email"],
+            message: 'Required'
+        });
+        expect(res.body.name).toBe('ZodError');
     });
 });
 
@@ -131,18 +140,22 @@ describe('UserController -> LoginUser', () => {
     });
     it('Missing email and password', async () => {
         const res = await request(app).post('/login').send({})
-        expect(res.statusCode).toBe(422);
-        expect(res.body).toEqual({
-            "message": "Validation Failed",
-            "details": {
-                "requestBody.password": {
-                    "message": "'password' is required"
-                },
-                "requestBody.email": {
-                    "message": "'email' is required"
-                }
-            }
-        })
+        expect(res.statusCode).toBe(400);
+        expect(res.body.issues[0]).toEqual({
+            code: 'invalid_type',
+            expected: 'string',
+            received: 'undefined',
+            path: ["password"],
+            message: 'Required'
+        });
+        expect(res.body.issues[1]).toEqual({
+            code: 'invalid_type',
+            expected: 'string',
+            received: 'undefined',
+            path: ["email"],
+            message: 'Required'
+        });
+        expect(res.body.name).toBe("ZodError");
     });
 });
 
@@ -153,8 +166,7 @@ describe('UserController -> GetUserInfo', () => {
         const { ["UserName"]: removedKey, ...LoginUserValue } = TestUser;
         const res = await request(app).post('/login').send(LoginUserValue)
         const token = res.body.token;
-        const res2 = await request(app).get('/userinfo').set('Authorization', `Bearer ${token}`);
-        console.log(res2.body)
+        const res2 = await request(app).get('/userinfo').set('Authorization', `Bearer ${token}`)
         expect(res2.statusCode).toBe(200);
         expect(res2.body.UserName).toBe(TestUser.UserName);
         expect(res2.body.email).toBe(TestUser.email);
@@ -162,17 +174,17 @@ describe('UserController -> GetUserInfo', () => {
     //錯誤取得
     it('Incorrect token', async () => {
         const res = await request(app).get('/userinfo').set('Authorization', `Bearer 123`)
-        expect(res.statusCode).toBe(500);
-        expect(res.body.message).toBe("Internal Server Error");
+        expect(res.statusCode).toBe(401);
+        expect(res.body.message).toBe("Invalid Token");
     });
     it('Missing token', async () => {
         const res = await request(app).get('/userinfo')
-        expect(res.statusCode).toBe(500);
-        expect(res.body.message).toBe("Internal Server Error");
+        expect(res.statusCode).toBe(401);
+        expect(res.body.message).toBe("Access denied");
     });
     it('Incorrect token', async () => {
         const res = await request(app).get('/userinfo').set('Authorization', `123`)
-        expect(res.statusCode).toBe(500);
-        expect(res.body.message).toBe("Internal Server Error");
+        expect(res.statusCode).toBe(401);
+        expect(res.body.message).toBe("Access denied");
     });
 });

@@ -1,11 +1,11 @@
-# 使用工具 TypeORM / Express / TypeScript / PostgresSQL / Jest / tsoa 簡單 API
+# 使用工具 TypeORM / Express / TypeScript / PostgresSQL / Jest / ts-rest / zod 簡單 API
 
 ## 需要工具
 
 - [Node v20+](https://nodejs.org/)
 - [Docker](https://www.docker.com/)
 - [Git](https://git-scm.com/)
-- [tsoa](https://tsoa-community.github.io/docs/)
+- [ts-rest](https://ts-rest.com/)
 
 ## 運行
 
@@ -31,15 +31,15 @@
 
 - `pnpm run migration:run` 讓migration運作
 
-- `pnpm run dev` 開發者模式 用 nodemon運作 in NODE_ENV=development
+- `pnpm run dev` 開發者模式 用 nodemon運作
 
-- `pnpm run build` 建置到 dist 資料夾中 in NODE_ENV=production
+- `pnpm run build` 建置到 dist 資料夾中
 
-- `pnpm run start` run dist index.js in NODE_ENV=production
+- `pnpm run start` run dist index.js
 
-- `pnpm run test` run jest in NODE_ENV=test
+- `pnpm run test` run jest
 
-- `pnpm run test:watch` run jest watch mode in NODE_ENV=test
+- `pnpm run test:watch` run jest watch mode
 
 ## Environment
 
@@ -51,8 +51,8 @@ DB_USERNAME=postgres                                #database username
 DB_PASSWORD=123456                                  #database password
 DB_DATABASE=postgres                                #database name
 JWT_SECRET_KEY=sGnspIm9StP6VAFr9ZFVMTfEKizVb0xE     #database jwt 密鑰
-API_PORT=5000                                       #api port
-NODE_ENV=prodection                                 #development || production || test
+API_PORT=3000                                       #api port
+NODE_ENV=development                                #development || production || test
 ```
 
 ## 檔案
@@ -71,6 +71,8 @@ NODE_ENV=prodection                                 #development || production |
 │   │   └── controller
 │   │       └── user.controller.spec.ts
 │   ├── app.ts
+│   ├── contract
+│   │   └── contract.ts
 │   ├── controller
 │   │   └── user.controller.ts
 │   ├── data-source.ts
@@ -79,15 +81,10 @@ NODE_ENV=prodection                                 #development || production |
 │   ├── index.ts
 │   ├── migration
 │   │   └── 1721729805902-migration_1.ts
-│   ├── routes
-│   │   ├── routes.ts
-│   │   └── swagger.json
-│   ├── services
-│   │   └── User.service.ts
-│   └── utils
-│       └── authentication.ts
-├── tsconfig.json
-└── tsoa.json
+│   └── routes
+│       ├── All.routes.ts
+│       └── user.routes.ts
+└── tsconfig.json
 ```
 
 ## API
@@ -154,19 +151,6 @@ Method: POST
 >}
 >```
 
-## Some Bug for tsoa
->
->使用以下指令會產生 routes.ts and swagger.json 在 src/routes 下
->
->```
-> pnpm tsoa spec-and-routes
->```
->
-> 但會發現產生 expressAuthenticationRecasted function 找不到的狀況需要自行增加
->
->```
-> import { expressAuthenticationRecasted } from '../utils/authentication';
->```
->
-> github issues
-> [Link](https://github.com/lukeautry/tsoa/issues/1624)
+## 小問題
+
+- ts-rest 的 openapi doc 沒辦法開單獨的 Auth baerer token 不知道為什麼

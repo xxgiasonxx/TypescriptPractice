@@ -18,7 +18,9 @@
       "typescript": "^5.5.3"
    },
    "dependencies": {
-      "@tsoa/runtime": "^6.4.0",
+      "@ts-rest/core": "^3.45.2",
+      "@ts-rest/express": "^3.45.2",
+      "@ts-rest/open-api": "^3.45.2",
       "@types/jest": "^29.5.12",
       "@types/supertest": "^6.0.2",
       "bcrypt": "^5.1.1",
@@ -33,17 +35,16 @@
       "reflect-metadata": "^0.1.14",
       "swagger-autogen": "^2.23.7",
       "swagger-ui-express": "^5.0.1",
-      "tsoa": "^6.4.0",
       "typeorm": "^0.3.20",
       "zod": "^3.23.8"
    },
    "scripts": {
-      "dev": "set NODE_ENV=development&&pnpm nodemon src/index.ts",
+      "dev": "set NODE_ENV=development&& pnpm nodemon src/index.ts",
       "start": "set NODE_ENV=production&&node ./dist/index.js",
       "build": "set NODE_ENV=production&&pnpm tsc",
-      "test": "set NODE_ENV=test&&pnpm jest",
-      "test:watch": "set NODE_ENV=test&&pnpm jest --watch",
-      "coverage": "set NODE_ENV=test&&pnpm jest --coverage",
+      "test": "set NODE_ENV=test&& pnpm jest",
+      "test:watch": "set NODE_ENV=test&& pnpm jest --watch",
+      "coverage": "set NODE_ENV=test&& pnpm jest --coverage",
       "typeorm": "pnpm typeorm-ts-node-commonjs",
       "migration:run": "pnpm ts-node ./node_modules/typeorm/cli.js migration:run -d ./src/data-source.ts",
       "migration:revert": "pnpm ts-node ./node_modules/typeorm/cli.js migration:revert -d ./src/data-source.ts",

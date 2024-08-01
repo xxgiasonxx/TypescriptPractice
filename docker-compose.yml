@@ -12,15 +12,15 @@ services:
     volumes:
       - data:/data/db
 
-  db-test:
+  db_test:
     image: postgres
     restart: always
+    ports:
+      - ${DB_TEST_PORT}:5432
     environment:
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_DB=api_test
-    ports:
-      - ${DB_TEST_PORT}:5432
 
   api:
     container_name: api
@@ -30,7 +30,7 @@ services:
       - ${API_PORT}:3000
     depends_on:
       - db
-      - db-test
+      - db_test
     environment:
       - DB_HOST=db
       - DB_PORT=${DB_PORT}
