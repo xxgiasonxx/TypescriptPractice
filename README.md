@@ -8,7 +8,7 @@
 - [ts-rest](https://ts-rest.com/)
 
 ## 運行
-
+### Docker Compose
 - Clone github 倉庫：\
 `git clone https://github.com/xxgiasonxx/TypescriptPractice.git`
 
@@ -16,6 +16,22 @@
 `cd TypescriptPractice`
 
 - 運行 `docker compose up -d` 創建 API image 以及 Postgres資料庫 and API container
+
+### Run
+
+- 先 clone\
+`git clone https://github.com/xxgiasonxx/TypescriptPractice.git`
+- pnpm更新node_modules\
+`pnpm install`
+- 創建環境\
+`cp .env.example .env`
+
+- development\
+`pnpm run dev`
+- prodction\
+`pnpm run build && pnpm run start`
+- Test\
+`pnpm run test`
 
 ## package.json Script
 
